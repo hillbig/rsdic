@@ -9,6 +9,7 @@ Conceptually, rsdic represents a bit vector B[0...num), B[i] = 0 or 1,
 and bits are provided PushBack operation (Thus RSDic supports dynamic addition).
 
 All operations (Bit, Rank, Select, BitAndRank, RunZeros) are supported in O(1) time.
+For example, rsdic can solve all above operation within 1 micro second for a bit vector of length 10^8 (100M bit).
 
 RSDic combines the idea of on-the-fly decoding of enumrative code,
 and utilization of rank/select samplings, which is discussed as a future work in the paper [1].
@@ -17,9 +18,10 @@ In RSDic, a bit vector is stored in compressed form (Note, we don't need to deco
 To achieve this, a bit vector is divided into small blocks of length 64, and each small block
 is compressed using enumurative code. For example, a small block contains 10 ones
 and 54 zeros will be compressed in 38 bits (See enumCode.go for detail).
-
 This achieves not only its information theoretic bound, but also achieves more compression
 if bits are clusterd.
+rsdic stores information at most 1.3 bit per original bit including its indicies, and compress more if bit vector 
+is "compresible". 
 
 This Go version is based on the C++ implementation [2].
 But this Go version supports PushBack so that it can support dynamic addition.
@@ -39,7 +41,14 @@ Usage
 	rsd.PushBack(true)
 	// rsd = 1011
 	fmt.Printf("%d %d %d\n", rsd.Num(), rsd.OneNum(), rsd.ZeroNum()) // 4 3 1
+	
+	// Bit(pos uint64) returns B[pos]
+	fmt.Printf("%v\n", rsd.Bit(2)) // true
 
+	// Rank(pos uint64, bit bool) returns the number of bit's in B[0...pos)
+	fmt.Printf("%d %d\n", rsd.Rank(2, false), rsd.Rank(4, true)) // 1 3
+	
+	// Select(rank uint64, bit bool) returns the position of (rank+1)-th occurence of bit in B.
 	oneNum := rsd.OneNum()
 	for i := uint64(0); i < oneNum; i++ {
 		fmt.Printf("%d:%d\n", rsd.Select(i, true))
@@ -49,6 +58,13 @@ Usage
 	// 2:3
 	
 	rsd.Push(false) // You can add anytime
+	
+	// Use MarshalBinary() and UnmarshalBinary() for serialize/deserialize RSDic.
+	bytes, err := rsd.MarshalBinary()
+	newrsd := rsdic.NewRSDic()
+	err := newrsd.UnmarshalBinary(bytes)
+	
+	// Enjoy !
 	
 
 Benchmark
