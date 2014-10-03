@@ -30,7 +30,7 @@ But this Go version supports PushBack so that it can support dynamic addition.
 Usage
 =====
 
-	import "github.com/hillbig/go/rsdic"
+	import "github.com/hillbig/rsdic"
 
 	rsd := rsdic.NewRSDic()
 	rsd.PushBack(true)
