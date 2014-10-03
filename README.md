@@ -57,7 +57,7 @@ Usage
 	// 1:2
 	// 2:3
 	
-	rsd.Push(false) // You can add anytime
+	rsd.PushBack(false) // You can add anytime
 	
 	// Use MarshalBinary() and UnmarshalBinary() for serialize/deserialize RSDic.
 	bytes, err := rsd.MarshalBinary()
