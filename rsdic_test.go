@@ -8,7 +8,7 @@ import (
 
 func TestEmptyRSDic(t *testing.T) {
 	Convey("When a bit vector is empty", t, func() {
-		rsd := NewRSDic()
+		rsd := New()
 		Convey("The num should be 0", func() {
 			So(rsd.Num(), ShouldEqual, 0)
 			So(rsd.ZeroNum(), ShouldEqual, 0)
@@ -30,7 +30,7 @@ func initBitVector(num uint64, ratio float32) (*rawBitVector, RSDic) {
 	orig := make([]uint8, num)
 	ranks := make([]uint64, num)
 	oneNum := uint64(0)
-	rsd := NewRSDic()
+	rsd := New()
 	for i := uint64(0); i < num; i++ {
 		ranks[i] = oneNum
 		if rand.Float32() > ratio {
@@ -86,7 +86,7 @@ func runTestRSDic(name string, t *testing.T, rsd RSDic, raw *rawBitVector) {
 		}
 		out, err := rsd.MarshalBinary()
 		So(err, ShouldBeNil)
-		newrsd := NewRSDic()
+		newrsd := New()
 		err = newrsd.UnmarshalBinary(out)
 		So(err, ShouldBeNil)
 		for i := 0; i < testNum; i++ {
@@ -130,7 +130,7 @@ func TestRandomAllZeroRSDic(t *testing.T) {
 }
 
 func setupRSDic(num uint64, ratio float32) RSDic {
-	rsd := NewRSDic()
+	rsd := New()
 	for i := uint64(0); i < num; i++ {
 		if rand.Float32() < ratio {
 			rsd.PushBack(true)

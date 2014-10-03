@@ -65,8 +65,8 @@ type RSDic interface {
 	UnmarshalBinary([]byte) error
 }
 
-// NewRSDic returns RSDic with a bit array of length 0.
-func NewRSDic() RSDic {
+// New returns RSDic with a bit array of length 0.
+func New() RSDic {
 	return &rsdicImpl{
 		bits:            make([]uint64, 0),
 		pointerBlocks:   make([]uint64, 0),

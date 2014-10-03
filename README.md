@@ -1,7 +1,7 @@
-RSDIC
+RSDic
 =====
 
-rsdic is a Go package for rank/select dictionary supporting rank/select operations efficiently, 
+rsdic is a Go package for rank/select dictionary supporting rank/select operations efficiently,
 and space efficient for both sparse and dense bit arrays.
 (Such data structures are also called as fully indexable dictionary in CS literatures (FID)).
 
@@ -20,8 +20,8 @@ is compressed using enumurative code. For example, a small block contains 10 one
 and 54 zeros will be compressed in 38 bits (See enumCode.go for detail).
 This achieves not only its information theoretic bound, but also achieves more compression
 if bits are clusterd.
-rsdic stores information at most 1.3 bit per original bit including its indicies, and compress more if bit vector 
-is "compresible". 
+rsdic stores information at most 1.3 bit per original bit including its indicies, and compress more if bit vector
+is "compresible".
 
 This Go version is based on the C++ implementation [2].
 But this Go version supports PushBack so that it can support dynamic addition.
@@ -34,20 +34,20 @@ Usage
 
 	import "github.com/hillbig/rsdic"
 
-	rsd := rsdic.NewRSDic()
+	rsd := rsdic.New()
 	rsd.PushBack(true)
 	rsd.PushBack(false)
 	rsd.PushBack(true)
 	rsd.PushBack(true)
 	// rsd = 1011
 	fmt.Printf("%d %d %d\n", rsd.Num(), rsd.OneNum(), rsd.ZeroNum()) // 4 3 1
-	
+
 	// Bit(pos uint64) returns B[pos]
 	fmt.Printf("%v\n", rsd.Bit(2)) // true
 
 	// Rank(pos uint64, bit bool) returns the number of bit's in B[0...pos)
 	fmt.Printf("%d %d\n", rsd.Rank(2, false), rsd.Rank(4, true)) // 1 3
-	
+
 	// Select(rank uint64, bit bool) returns the position of (rank+1)-th occurence of bit in B.
 	oneNum := rsd.OneNum()
 	for i := uint64(0); i < oneNum; i++ {
@@ -56,16 +56,16 @@ Usage
 	// 0:0
 	// 1:2
 	// 2:3
-	
+
 	rsd.PushBack(false) // You can add anytime
-	
+
 	// Use MarshalBinary() and UnmarshalBinary() for serialize/deserialize RSDic.
 	bytes, err := rsd.MarshalBinary()
 	newrsd := rsdic.NewRSDic()
 	err := newrsd.UnmarshalBinary(bytes)
-	
+
 	// Enjoy !
-	
+
 
 Benchmark
 =========
