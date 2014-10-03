@@ -1,27 +1,31 @@
-Package rsdic provides a rank/select dictionary
-supporting many basic operations in constant time
-using very small working space (smaller than original).
+RSDIC
+=====
 
-Conceptually RSDic represents a bit vector B[0...num), B[i] = 0 or 1,
-and bits are provided PushBack operation (Thus RSDic supports dynamic addition)
-All operations (Bit, Rank, Select) are supported in O(1) time.
-(also called as fully indexable dictionary in CS literatures (FID)).
+rsdic is a Go package for rank/select dictionary supporting rank/select operations efficiently, 
+and space efficient for both sparse and dense bit arrays.
+(Such data structures are also called as fully indexable dictionary in CS literatures (FID)).
+
+Conceptually, rsdic represents a bit vector B[0...num), B[i] = 0 or 1,
+and bits are provided PushBack operation (Thus RSDic supports dynamic addition).
+
+All operations (Bit, Rank, Select, BitAndRank, RunZeros) are supported in O(1) time.
+
 RSDic combines the idea of on-the-fly decoding of enumrative code,
 and utilization of rank/select samplings, which is discussed as a future work in the paper [1].
 
-In RSDic, a bit vector is stored in compressed (Note, we don't need to decode all at operations)
-A bit vector is divided into small blocks of length 64, and each small block
-is compressed using enum coding. For example, if a small block contains 10 ones
-and 54 zeros, then this block is compressed in 38 bits (See enumCode.go)
+In RSDic, a bit vector is stored in compressed form (Note, we don't need to decode all at operations).
+To achieve this, a bit vector is divided into small blocks of length 64, and each small block
+is compressed using enumurative code. For example, a small block contains 10 ones
+and 54 zeros will be compressed in 38 bits (See enumCode.go for detail).
 
 This achieves not only its information theoretic bound, but also achieves more compression
 if bits are clusterd.
 
-This Go version is based on the C++ version [2].
+This Go version is based on the C++ implementation [2].
 But this Go version supports PushBack so that it can support dynamic addition.
 
-[1] "Fast, Small, Simple Rank/Select on Bitmaps", Gonzalo Navarro and Eliana Providel, SEA 2012
-[2] C++ version https://code.google.com/p/rsdic/ (the same author)
+- [1] "Fast, Small, Simple Rank/Select on Bitmaps", Gonzalo Navarro and Eliana Providel, SEA 2012 [pdf](http://www.dcc.uchile.cl/~gnavarro/ps/sea12.1.pdf)
+- [2] C++ version https://code.google.com/p/rsdic/ (the same author)
 
 Usage
 =====
@@ -43,14 +47,17 @@ Usage
 	// 0:0
 	// 1:2
 	// 2:3
+	
+	rsd.Push(false) // You can add anytime
+	
 
 Benchmark
 =========
 
-1.7 GHz Intel Core i7
-OS X 10.9.2
-8GB 1600 MHz DDR3
-go version go1.3 darwin/amd64
+- 1.7 GHz Intel Core i7
+- OS X 10.9.2
+- 8GB 1600 MHz DDR3
+- go version go1.3 darwin/amd64
 
 The results shows that RSDic operations require always
 (almost) constant time with regard to the length and one's ratio.
