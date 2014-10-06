@@ -1,7 +1,7 @@
 package rsdic
 
 import (
-	"bytes"
+	"fmt"
 	"github.com/ugorji/go/codec"
 )
 
@@ -262,9 +262,8 @@ func (rsd rsdicImpl) AllocSize() int {
 }
 
 func (rsd rsdicImpl) MarshalBinary() (out []byte, err error) {
-	w := new(bytes.Buffer)
-	var bh codec.BincHandle
-	enc := codec.NewEncoder(w, &bh)
+	var bh codec.MsgpackHandle
+	enc := codec.NewEncoderBytes(&out, &bh)
 	err = enc.Encode(rsd.bits)
 	if err != nil {
 		return
@@ -317,16 +316,15 @@ func (rsd rsdicImpl) MarshalBinary() (out []byte, err error) {
 	if err != nil {
 		return
 	}
-	out = w.Bytes()
 	return
 }
 
 func (rsd *rsdicImpl) UnmarshalBinary(in []byte) (err error) {
-	r := bytes.NewBuffer(in)
-	var bh codec.BincHandle
-	dec := codec.NewDecoder(r, &bh)
+	var bh codec.MsgpackHandle
+	dec := codec.NewDecoderBytes(in, &bh)
 	err = dec.Decode(&rsd.bits)
 	if err != nil {
+		fmt.Printf("1\n")
 		return
 	}
 	err = dec.Decode(&rsd.pointerBlocks)

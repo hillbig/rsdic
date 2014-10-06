@@ -119,6 +119,11 @@ func TestRandomLargeRSDic(t *testing.T) {
 	runTestRSDic("When a large bit vector is assigned", t, rsd, raw)
 }
 
+func TestRandomVeryLargeRSDic(t *testing.T) {
+	raw, rsd := initBitVector(4000000, 0.8)
+	runTestRSDic("When a large bit vector is assigned", t, rsd, raw)
+}
+
 func TestRandomLargeSparseRSDic(t *testing.T) {
 	raw, rsd := initBitVector(100000, 0.01)
 	runTestRSDic("When a large sparse bit vector is assigned", t, rsd, raw)
