@@ -137,7 +137,9 @@ func (rs rsdicImpl) Select(rank uint64, bit bool) uint64 {
 }
 
 func (rs rsdicImpl) Select1(rank uint64) uint64 {
-	if rank >= rs.oneNum-rs.lastOneNum {
+	if rank >= rs.oneNum {
+		return rs.num
+	} else if rank >= rs.oneNum-rs.lastOneNum {
 		lastBlockRank := uint8(rank - (rs.oneNum - rs.lastOneNum))
 		return rs.lastBlockInd() + uint64(selectRaw(rs.lastBlock, lastBlockRank+1))
 	}
@@ -166,6 +168,9 @@ func (rs rsdicImpl) Select1(rank uint64) uint64 {
 }
 
 func (rs rsdicImpl) Select0(rank uint64) uint64 {
+	if rank >= rs.zeroNum {
+		return rs.num
+	}
 	if rank >= rs.zeroNum-rs.lastZeroNum {
 		lastBlockRank := uint8(rank - (rs.zeroNum - rs.lastZeroNum))
 		return rs.lastBlockInd() + uint64(selectRaw(^rs.lastBlock, lastBlockRank+1))

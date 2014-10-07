@@ -42,6 +42,8 @@ type RSDic interface {
 	Rank(pos uint64, bit bool) uint64
 
 	// Select returns the position of (rank+1)-th occurence of bit in B
+	// Select returns num if rank+1 is larger than the possible range.
+	// (i.e. Select(oneNum, true) = num, Select(zeroNum, false) = num)
 	Select(rank uint64, bit bool) uint64
 
 	// BitAndRank returns the (pos+1)-th bit (=b) and Rank(pos, b)
