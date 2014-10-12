@@ -76,13 +76,6 @@ func runTestRSDic(name string, t *testing.T, rsd RSDic, raw *rawBitVector) {
 			So(bit, ShouldEqual, orig[ind] == 1)
 			So(rank, ShouldEqual, bitNum(ranks[ind], ind, bit))
 			So(rsd.Select(rank, bit), ShouldEqual, ind)
-			runZeros := uint64(0)
-			for ; runZeros+ind < num; runZeros++ {
-				if orig[runZeros+ind] == 1 {
-					break
-				}
-			}
-			So(rsd.RunZeros(ind), ShouldEqual, runZeros)
 		}
 		out, err := rsd.MarshalBinary()
 		So(err, ShouldBeNil)
@@ -98,13 +91,6 @@ func runTestRSDic(name string, t *testing.T, rsd RSDic, raw *rawBitVector) {
 			So(bit, ShouldEqual, orig[ind] == 1)
 			So(rank, ShouldEqual, bitNum(ranks[ind], ind, bit))
 			So(newrsd.Select(rank, bit), ShouldEqual, ind)
-			runZeros := uint64(0)
-			for ; runZeros+ind < num; runZeros++ {
-				if orig[runZeros+ind] == 1 {
-					break
-				}
-			}
-			So(newrsd.RunZeros(ind), ShouldEqual, runZeros)
 		}
 	})
 }

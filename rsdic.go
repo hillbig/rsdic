@@ -51,12 +51,6 @@ type RSDic interface {
 	// BitAndRank is faster.
 	BitAndRank(pos uint64) (bool, uint64)
 
-	// RunZeros returns the length of runs of zeros begins at B[pos]
-	// Runs terminates if B[i] is 1 or reaches the end of B
-	// Although this is equivalent to Select(Rank(pos)+1, true) - pos,
-	// RunZeros is faster
-	RunZeros(pos uint64) uint64
-
 	// AllocSize returns the allocated size in bytes.
 	AllocSize() int
 

@@ -222,41 +222,6 @@ func (rs rsdicImpl) BitAndRank(pos uint64) (bool, uint64) {
 	return bit, bitNum(rank, pos, bit)
 }
 
-func (rs rsdicImpl) RunZeros(pos uint64) uint64 {
-	if rs.isLastBlock(pos) {
-		offset := uint8(pos - rs.lastBlockInd())
-		lastRunZero := uint64(runZerosRaw(rs.lastBlock, offset))
-		if lastRunZero <= rs.num-rs.lastBlockInd()-uint64(offset) {
-			return lastRunZero
-		} else {
-			return rs.num - rs.lastBlockInd() - uint64(offset)
-		}
-	}
-	lblock := pos / kLargeBlockSize
-	pointer := rs.pointerBlocks[lblock]
-	sblock := pos / kSmallBlockSize
-	for i := lblock * kSmallBlockPerLargeBlock; i < sblock; i++ {
-		pointer += uint64(kEnumCodeLength[rs.rankSmallBlocks[i]])
-	}
-	ret := uint64(0)
-	offset := uint8(pos % kSmallBlockSize)
-	rankSB := rs.rankSmallBlocks[sblock]
-	code := getSlice(rs.bits, pointer, kEnumCodeLength[rankSB])
-	runZeros := enumRunZeros(code, rankSB, offset)
-	ret += uint64(runZeros)
-	if uint64(offset)+uint64(runZeros) < kSmallBlockSize {
-		return ret
-	}
-	// Since zero continues beyond a small block,
-	// use rank/select to make sure O(1) time.
-	rank := rs.Rank(pos, true)
-	if rank+1 < rs.OneNum() {
-		return rs.Select1(rank) - pos
-	} else {
-		return rs.Num() - pos
-	}
-}
-
 func (rsd rsdicImpl) AllocSize() int {
 	return len(rsd.bits)*8 +
 		len(rsd.pointerBlocks)*8 +
