@@ -26,7 +26,7 @@ type rawBitVector struct {
 	oneNum uint64
 }
 
-func initBitVector(num uint64, ratio float32) (*rawBitVector, RSDic) {
+func initBitVector(num uint64, ratio float32) (*rawBitVector, *RSDic) {
 	orig := make([]uint8, num)
 	ranks := make([]uint64, num)
 	oneNum := uint64(0)
@@ -54,7 +54,7 @@ const (
 	testNum = 10
 )
 
-func runTestRSDic(name string, t *testing.T, rsd RSDic, raw *rawBitVector) {
+func runTestRSDic(name string, t *testing.T, rsd *RSDic, raw *rawBitVector) {
 	orig := raw.orig
 	ranks := raw.ranks
 	num := raw.num
@@ -120,7 +120,7 @@ func TestRandomAllZeroRSDic(t *testing.T) {
 	runTestRSDic("When a large zero bit vector is assigned", t, rsd, raw)
 }
 
-func setupRSDic(num uint64, ratio float32) RSDic {
+func setupRSDic(num uint64, ratio float32) *RSDic {
 	rsd := New()
 	for i := uint64(0); i < num; i++ {
 		if rand.Float32() < ratio {
