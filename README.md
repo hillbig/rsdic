@@ -21,7 +21,7 @@ and 54 zeros will be compressed in 38 bits (See enumCode.go for detail).
 This achieves not only its information theoretic bound, but also achieves more compression
 if bits are clusterd.
 rsdic stores information at most 1.3 bit per original bit including its indicies, and compress more if bit vector
-is "compresible".
+is "compressible".
 
 This Go version is based on the C++ implementation [2].
 But this Go version supports PushBack so that it can support dynamic addition.
@@ -29,7 +29,7 @@ But this Go version supports PushBack so that it can support dynamic addition.
 - [1] "Fast, Small, Simple Rank/Select on Bitmaps", Gonzalo Navarro and Eliana Providel, SEA 2012 [pdf](http://www.dcc.uchile.cl/~gnavarro/ps/sea12.1.pdf)
 - [2] C++ version https://code.google.com/p/rsdic/ (the same author)
 
-Usage
+Usage (details are in `./sample`)
 =====
 
 	import "github.com/hillbig/rsdic"
@@ -51,7 +51,7 @@ Usage
 	// Select(rank uint64, bit bool) returns the position of (rank+1)-th occurence of bit in B.
 	oneNum := rsd.OneNum()
 	for i := uint64(0); i < oneNum; i++ {
-		fmt.Printf("%d:%d\n", rsd.Select(i, true))
+		fmt.Printf("%d:%d\n", i, rsd.Select(i, true))
 	}
 	// 0:0
 	// 1:2
@@ -60,9 +60,9 @@ Usage
 	rsd.PushBack(false) // You can add anytime
 
 	// Use MarshalBinary() and UnmarshalBinary() for serialize/deserialize RSDic.
-	bytes, err := rsd.MarshalBinary()
-	newrsd := rsdic.NewRSDic()
-	err := newrsd.UnmarshalBinary(bytes)
+	bytes, _ := rsd.MarshalBinary()
+	newrsd := rsdic.New()
+	_ = newrsd.UnmarshalBinary(bytes)
 
 	// Enjoy !
 

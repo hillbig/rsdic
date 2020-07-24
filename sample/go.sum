@@ -1,0 +1,6 @@
+github.com/hillbig/rsdic v0.0.0-20150805052524-6158e7a2d824 h1:t71y5fcBE2nktZDXhTmPdZXrdFGBFAiHcOTTk0/+1to=
+github.com/hillbig/rsdic v0.0.0-20150805052524-6158e7a2d824/go.mod h1:ivdNV4DsR3UB9xzoIPzw0OipHZf+I7VklGmx0jLkgwo=
+github.com/ugorji/go v1.1.7 h1:/68gy2h+1mWMrwZFeD1kQialdSzAb432dtpeJ42ovdo=
+github.com/ugorji/go v1.1.7/go.mod h1:kZn38zHttfInRq0xu/PH0az30d+z6vm202qpg1oXVMw=
+github.com/ugorji/go/codec v1.1.7 h1:2SvQaVZ1ouYrrKKwoSk2pzd4A9evlKJb9oTL+OaLUSs=
+github.com/ugorji/go/codec v1.1.7/go.mod h1:Ax+UKWsSmolVDwsd+7N3ZtXu+yMGCf907BLYF3GoBXY=
