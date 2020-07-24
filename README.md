@@ -21,7 +21,7 @@ and 54 zeros will be compressed in 38 bits (See enumCode.go for detail).
 This achieves not only its information theoretic bound, but also achieves more compression
 if bits are clusterd.
 rsdic stores information at most 1.3 bit per original bit including its indicies, and compress more if bit vector
-is "compresible".
+is "compressible".
 
 This Go version is based on the C++ implementation [2].
 But this Go version supports PushBack so that it can support dynamic addition.
